@@ -11,7 +11,7 @@ app.use(cors()) // allow cross-origin resource sharing
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
-
+app.use('/static', express.static('public'))
 // connect to database
 mongoose
   .connect(`${process.env.DB_CONNECTION_STRING}`)
@@ -78,5 +78,15 @@ app.post('/messages/save', async (req, res) => {
   }
 })
 
-// export the express app we created to make it available to other modules
+app.get('/about', (req, res) => {
+  res.json({
+    name: 'Yazid Alhamed',
+    paragraphs: [
+      'I am a sophomore at NYU College of Arts and Science, double majoring in Computer Science and Economics with a concentration in Policy. I am from Saudi Arabia and split my time between Riyadh and New York City. I study at NYU through the KAUST Gifted Student Program scholarship.',
+      'Before NYU, I worked at SDAIA, the Saudi Data and AI Authority, on machine learning pipeline optimization. This past summer I interned at Protiviti in internal audit, working on governance, compliance, and risk assessments for several clients. I also did research through the KAUST Summer Internship Program on how AI agents misbehave.',
+      'Long term, I want to work in private equity in Saudi Arabia, ideally building my own fund one day. Outside of class, I follow football, cars, and markets, and I am always interested in what is happening in the Saudi startup scene.',
+    ],
+    imageUrl: 'http://localhost:5002/static/Yazid.jpeg',
+  })
+})
 module.exports = app // CommonJS export style!
